@@ -7,6 +7,7 @@ Application was developed with Kotlin, using Android Jetpack with some component
 - ConstraintLayout and RecyclerView for layout creating and displaying,
 - DataBinding, LiveData, ViewModel for data surfaced to the UI,
 - Room for on-device data storage of weather history in database.
+
 Also there were used such libraries as:
 - Kotlin Coroutines for asynchronous task,
 - Material for Material Design concept implementation,
