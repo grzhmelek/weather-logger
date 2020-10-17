@@ -34,7 +34,7 @@ User can share weather log data using the Android intent resolver, converting la
 I made some transitions between screens but without custom animations.
 
 ● Create Widget for Home Screen
-Widget for home screen created
+Simple Widget for home screen created.
 
 ● All CRUD operations
 All CRUD operations are used in the app -

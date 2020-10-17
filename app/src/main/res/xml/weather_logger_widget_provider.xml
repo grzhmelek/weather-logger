@@ -4,7 +4,7 @@
     android:initialLayout="@layout/weather_logger_widget"
     android:minHeight="60dp"
     android:minWidth="180dp"
-    android:previewImage="@drawable/ic_logo"
+    android:previewImage="@drawable/ic_launcher_foreground"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen">
