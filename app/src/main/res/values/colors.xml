@@ -1,0 +1,14 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<resources>
+  <color name="primaryColor">#ff9100</color>
+  <color name="primaryLightColor">#ffc246</color>
+  <color name="primaryDarkColor">#c56200</color>
+  <color name="secondaryColor">#ff3d00</color>
+  <color name="secondaryLightColor">#ff7539</color>
+  <color name="secondaryDarkColor">#c30000</color>
+  <color name="primaryTextColor">#000000</color>
+  <color name="secondaryTextColor">#000000</color>
+  <color name="secondaryColdDarkColor">#0031ca</color>
+  <color name="fabIconColor">#ffffff</color>
+  <color name="widgetTextColor">#ffffff</color>
+</resources>

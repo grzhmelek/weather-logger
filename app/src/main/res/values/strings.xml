@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Weather Logger</string>
+    <string name="weather_api_key">0dd2d7f73e90deb694e90a5f745c35fd</string>
+    <string name="city_id">456172</string>
+    <string name="temperature_unit">metric</string>
+    <!--    u2103-->
+    <string name="formatted_temperature">%1$s℃</string>
+    <string name="humidity">%1$d %%</string>
+    <string name="speed">%1$s m/s</string>
+
+
+    <string name="label_temperature">Temperature</string>
+    <string name="label_date">Date</string>
+    <string name="title_fragment_weather">Weather Logger</string>
+    <string name="menu_save">Save</string>
+    <string name="lang">en</string>
+    <string name="title_fragment_details">Details</string>
+    <string name="title_category_main">Main</string>
+    <string name="title_category_wind">Wind</string>
+    <string name="label_speed">Speed</string>
+    <string name="label_feels_like">Feels like</string>
+    <string name="label_temp_min">Minimal temperature</string>
+    <string name="label_temp_max">Maximum temperature</string>
+    <string name="label_pressure">Pressure</string>
+    <string name="label_humidity">Humidity</string>
+    <string name="empty_list">No history yet. Please request some data</string>
+    <string name="menu_clear_history">Clear history</string>
+    <string name="message_connection_error">Connection error</string>
+    <string name="message_permission_denied">Permission denied</string>
+    <string name="menu_share">Share</string>
+    <string name="message_permission_location_denied">Permission denied. Weather is available for Riga only.</string>
+    <string name="dialog_title_gps_settings">GPS settings</string>
+    <string name="dialog_message_gps_settings">GPS is not enabled. Do you want to go to settings menu?</string>
+    <string name="dialog_button_settings">Settings</string>
+    <string name="dialog_button_cancel">Cancel</string>
+
+</resources>
