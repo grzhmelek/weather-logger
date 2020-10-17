@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.*
 import com.grzhmelek.weatherlogger.R
+import com.grzhmelek.weatherlogger.WeatherLoggerApplication
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherListBinding
@@ -287,7 +288,7 @@ class WeatherListFragment : Fragment() {
 
     private fun performAction(permissions: List<String>) {
         if (permissions == permissionsForLocation) {
-            weatherListViewModel.getLocation(requireActivity())
+            weatherListViewModel.getLocation(this.requireActivity())
         } else if (permissions == permissionsForSharing)
             weatherListViewModel.getBitmapFromViewAndStoreImage(binding.scrollableWrapper)
     }
@@ -295,7 +296,7 @@ class WeatherListFragment : Fragment() {
     private fun performActionByRequestCode(requestCode: Int) {
         when (requestCode) {
             PERMISSIONS_FOR_LOCATION_CODE ->
-                weatherListViewModel.getLocation(requireActivity())
+                weatherListViewModel.getLocation(this.requireActivity())
             PERMISSIONS_FOR_SHARING_CODE ->
                 weatherListViewModel.getBitmapFromViewAndStoreImage(binding.scrollableWrapper)
         }

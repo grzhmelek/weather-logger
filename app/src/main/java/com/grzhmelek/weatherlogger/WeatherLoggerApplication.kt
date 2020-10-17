@@ -31,7 +31,7 @@ class WeatherLoggerApplication : MultiDexApplication() {
                 }
             }.build()
 
-        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)
+        val repeatingRequest = PeriodicWorkRequestBuilder<RefreshDataWorker>(2, TimeUnit.HOURS)
             .setConstraints(constraints)
             .build()
 

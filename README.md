@@ -1,9 +1,6 @@
 # weather-logger
 
-Hi!
-So, Android application to save weather conditions for current location is done.
-
-It was developed with Kotlin, using Android Jetpack with some components:
+Application was developed with Kotlin, using Android Jetpack with some components:
 - Android KTX for Kotlin usage itself,
 - AppCompat to preserve key app functionality,
 - Navigation for navigation between fragments,
@@ -13,21 +10,21 @@ It was developed with Kotlin, using Android Jetpack with some components:
 Also there were used such libraries as:
 - Kotlin Coroutines for asynchronous task,
 - Material for Material Design concept implementation,
-- Retrofit2 for retreiving data from API,
+- Retrofit2 for retrieving data from API,
 - Okhttp3 for logging request/response from API,
-- Moshi for Json response body parsing,
-- Glide for icon displaying.
+- Moshi for Json response body parsing.
 
 OPTIONAL TASKS
+
 ● Implement ‘More details’ screen (with ability to view more detailed information
 about weather data returned from API)
 More details screen is implemented. User can get more weather details on weather item clicked.
 
 ● Fetching and processing weather data for more locations
-On ADD floating button clicked location permissions are checked. If user allow to use geolocation, appears alert dialog about GSP location with option go to the phone settings and turn on location. When location information is available user can retreive current weather data using CurrentWeatherData API by current latitude and longitude. If location permission is denied user get weather data location from API statically by Riga city code.
+On ADD floating button clicked location permissions are checked. If user allow to use geolocation, appears alert dialog about GSP location with option go to the phone settings and turn on location. When location information is available user can retrieve current weather data using CurrentWeatherData API by current latitude and longitude. If location permission is denied user get weather data location from API statically by Riga city code.
 
 ● Refresh the weather data periodically
-Tried to implement data refreshing using WorkManager (I leave code in the app), but at the moment it's not working, so consider this point is not done.
+Data refreshing using WorkManager every 2 hours.
 
 ● Ability to access application weather data from 3rd party apps via shared content
 provider or other solutions
@@ -35,6 +32,9 @@ User can share weather log data using the Android intent resolver, converting la
 
 ● Custom animations, transitions between screens
 I made some transitions between screens but without custom animations.
+
+● Create Widget for Home Screen
+Widget for home screen created
 
 ● All CRUD operations
 All CRUD operations are used in the app -

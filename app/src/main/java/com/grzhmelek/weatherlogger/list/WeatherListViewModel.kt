@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.grzhmelek.weatherlogger.R
+import com.grzhmelek.weatherlogger.WeatherLoggerApplication
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.network.WeatherApi
 import com.grzhmelek.weatherlogger.utils.GpsTracker
@@ -88,13 +89,11 @@ class WeatherListViewModel(
     }
 
     fun getLocation(activity: FragmentActivity) {
-        coroutineScope.launch {
-            val gpsTracker = GpsTracker(activity)
-            if (gpsTracker.canGetLocation()) {
-                _currentLocation.postValue(Pair(gpsTracker.getLatitude(), gpsTracker.getLongitude()))
-            } else {
-                gpsTracker.showSettingsAlert()
-            }
+        val gpsTracker = GpsTracker(activity)
+        if (gpsTracker.canGetLocation()) {
+            _currentLocation.value = Pair(gpsTracker.getLatitude(), gpsTracker.getLongitude())
+        } else {
+            gpsTracker.showSettingsAlert()
         }
     }
 

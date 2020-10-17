@@ -7,10 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.list.WeatherListViewModel
 import com.grzhmelek.weatherlogger.list.WeatherResult
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -28,9 +25,12 @@ fun bindMillisToString(textView: TextView, millis: Long) {
 @BindingAdapter("weather_icon")
 fun bindIcon(imageView: ImageView, weatherResult: WeatherResult) {
     val context = imageView.context
-    Glide.with(context)
-        .load(weatherResult.weather?.get(0)?.icon?.let { getDrawable(context, it) })
-        .into(imageView)
+    val drawable = if (weatherResult.weather?.get(0)?.icon != null) {
+        getDrawable(context, weatherResult.weather[0].icon!!)
+    } else {
+        getDrawable(context, "")
+    }
+    imageView.setImageDrawable(drawable)
 }
 
 @BindingAdapter("temperature_text_color")

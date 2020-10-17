@@ -5,11 +5,11 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
-import com.bumptech.glide.load.HttpException
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.network.WeatherApi
 import com.grzhmelek.weatherlogger.utils.GpsTracker
+import retrofit2.HttpException
 
 
 class RefreshDataWorker(private val appContext: Context, params: WorkerParameters) :
@@ -57,7 +57,7 @@ class RefreshDataWorker(private val appContext: Context, params: WorkerParameter
                 val weatherResult = getWeatherDeferred.await()
                 dataSource.insert(weatherResult)
             } catch (e: Exception) {
-                Log.e(TAG, e.message)
+                Log.e(TAG, e.message ?: "Getting weather error")
             }
         }
         return Data.Builder()
