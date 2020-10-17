@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/weather_logger_widget"
     android:minHeight="60dp"
-    android:minWidth="180dp"
+    android:minWidth="60dp"
     android:previewImage="@drawable/ic_launcher_foreground"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen">
+    android:updatePeriodMillis="0">
 </appwidget-provider>

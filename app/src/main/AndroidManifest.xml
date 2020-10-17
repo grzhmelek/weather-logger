@@ -36,19 +36,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-        <receiver android:name=".widget.WeatherLoggerWidgetProvider" >
+        <receiver
+            android:name=".widget.WeatherLoggerWidgetProvider"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/weather_logger_widget_provider" />
         </receiver>
-
-<!--        <activity android:name=".WeatherLoggerWidgetConfigure">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
     </application>
 
 </manifest>
