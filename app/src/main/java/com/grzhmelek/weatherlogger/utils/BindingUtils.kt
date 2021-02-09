@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import coil.load
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.list.WeatherResult
 import java.text.DecimalFormat
@@ -30,7 +31,8 @@ fun bindIcon(imageView: ImageView, weatherResult: WeatherResult) {
     } else {
         getDrawable(context, "")
     }
-    imageView.setImageDrawable(drawable)
+    imageView.load(drawable)
+//    imageView.setImageDrawable(drawable)
 }
 
 @BindingAdapter("temperature_text_color")

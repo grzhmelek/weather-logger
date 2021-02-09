@@ -14,7 +14,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.WeatherLoggerApplication
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.network.WeatherApi
 import com.grzhmelek.weatherlogger.utils.GpsTracker
@@ -137,7 +136,7 @@ class WeatherListViewModel(
             val weatherResult = weatherDeferred.await()
             _weatherResultData.postValue(weatherResult)
         } catch (e: Exception) {
-            Log.e(TAG, e.message)
+            Log.e(TAG, "Exception: ${e.message}")
             _weatherResultData.postValue(WeatherResult())
             _showMessage.postValue(application.getString(R.string.message_connection_error))
         }

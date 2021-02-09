@@ -37,10 +37,10 @@ suspend fun storeImage(context: Context, imageData: Bitmap, fileName: String): U
             bos.close()
             galleryAddPic(context, filePath)
         } catch (e: FileNotFoundException) {
-            Log.e(WeatherListViewModel.TAG, e.message)
+            Log.e(WeatherListViewModel.TAG, "FileNotFoundException: ${e.message}")
             return@withContext
         } catch (e: IOException) {
-            Log.e(WeatherListViewModel.TAG, e.message)
+            Log.e(WeatherListViewModel.TAG, "IOException: ${e.message}")
             return@withContext
         }
         contentUri = getContentUri(context, filePath)

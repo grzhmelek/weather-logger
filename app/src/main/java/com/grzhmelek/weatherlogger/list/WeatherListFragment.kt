@@ -13,12 +13,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.transition.*
+import com.google.android.material.transition.MaterialElevationScale
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.WeatherLoggerApplication
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherListBinding
@@ -42,7 +41,7 @@ class WeatherListFragment : Fragment() {
     private lateinit var viewModelFactory: WeatherListViewModelFactory
 
     private val weatherListViewModel: WeatherListViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(WeatherListViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory).get(WeatherListViewModel::class.java)
     }
 
     private val permissionsForLocation = listOf(
@@ -57,7 +56,7 @@ class WeatherListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWeatherListBinding.inflate(inflater)
 
         application = requireNotNull(this.activity).application
@@ -192,11 +191,11 @@ class WeatherListFragment : Fragment() {
     }
 
     private fun shareWeatherImage(uri: Uri) {
-        val intent = Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.type = "image/png";
-        startActivity(intent);
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_STREAM, uri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.type = "image/png"
+        startActivity(intent)
         weatherListViewModel.shareImageComplete()
     }
 

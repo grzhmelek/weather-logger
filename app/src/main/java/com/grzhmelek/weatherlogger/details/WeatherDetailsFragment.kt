@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.grzhmelek.weatherlogger.WeatherLoggerApplication
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherDetailsBinding
 
 class WeatherDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding: FragmentWeatherDetailsBinding = FragmentWeatherDetailsBinding.inflate(inflater)
 
         val application = requireNotNull(this.activity).application

@@ -1,7 +1,7 @@
 package com.grzhmelek.weatherlogger
 
+import android.app.Application
 import android.os.Build
-import androidx.multidex.MultiDexApplication
 import androidx.work.*
 import com.grzhmelek.weatherlogger.work.RefreshDataWorker
 import kotlinx.coroutines.CoroutineScope
@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-class WeatherLoggerApplication : MultiDexApplication() {
+class WeatherLoggerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         delayedInit()
