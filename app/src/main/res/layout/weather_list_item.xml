@@ -12,12 +12,16 @@
         <variable
             name="clickListener"
             type="com.grzhmelek.weatherlogger.list.WeatherClickListener" />
+
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onClick(weatherResult)}">
+        android:onClick="@{() -> clickListener.onClick(weatherResult, position)}">
 
         <TextView
             android:id="@+id/date"

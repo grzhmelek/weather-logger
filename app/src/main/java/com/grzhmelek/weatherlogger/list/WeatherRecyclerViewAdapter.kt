@@ -1,7 +1,7 @@
 package com.grzhmelek.weatherlogger.list
 
 import android.content.res.Resources
-import android.util.Log
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.databinding.WeatherListItemBinding
+import com.grzhmelek.weatherlogger.list.WeatherRecyclerViewAdapter.ViewHolder.Companion.selectedPosition
 
 class WeatherRecyclerViewAdapter(
     private val clickListener: WeatherClickListener,
@@ -21,7 +22,7 @@ class WeatherRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(clickListener, theme, item)
+        holder.bind(clickListener, theme, item, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,10 +35,12 @@ class WeatherRecyclerViewAdapter(
         fun bind(
             clickListener: WeatherClickListener,
             theme: Resources.Theme,
-            item: WeatherResult
+            item: WeatherResult,
+            position: Int
         ) {
             binding.weatherResult = item
             binding.clickListener = clickListener
+            binding.position = position
 
             // Text color depends on temperature
             val typedValue = TypedValue()
@@ -52,6 +55,17 @@ class WeatherRecyclerViewAdapter(
                 binding.temperature.setTextColor(color)
             }
 
+            // Item highlighting for multiple pane screens
+            if (binding.root.context.resources.getBoolean(R.bool.isTablet)) {
+                if (selectedPosition == position) {
+                    theme.resolveAttribute(R.attr.colorSecondaryLight, typedValue, true)
+                    val color = typedValue.data
+                    binding.root.setBackgroundColor(color)
+                } else {
+                    binding.root.setBackgroundColor(Color.TRANSPARENT)
+                }
+            }
+
             // Transitions
             ViewCompat.setTransitionName(binding.root, item.weatherResultId.toString())
 
@@ -64,7 +78,13 @@ class WeatherRecyclerViewAdapter(
                 val binding = WeatherListItemBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
+
+            var selectedPosition: Int = -1
         }
+    }
+
+    fun resetPositionValue() {
+        selectedPosition = -1
     }
 }
 
@@ -78,8 +98,9 @@ class WeatherDiffCallback : DiffUtil.ItemCallback<WeatherResult>() {
     }
 }
 
-class WeatherClickListener(val clickListener: (weatherResult: WeatherResult) -> Unit) {
-    fun onClick(weatherResult: WeatherResult) {
-        clickListener(weatherResult)
+class WeatherClickListener(val clickListener: (weatherResult: WeatherResult, position: Int) -> Unit) {
+    fun onClick(weatherResult: WeatherResult, position: Int) {
+        selectedPosition = position
+        clickListener(weatherResult, position)
     }
 }

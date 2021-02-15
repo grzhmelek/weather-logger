@@ -71,7 +71,7 @@ class WeatherListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val adapter = WeatherRecyclerViewAdapter(
-            WeatherClickListener { weather ->
+            WeatherClickListener { weather, position ->
                 // Transitions
                 exitTransition = MaterialElevationScale(true).apply {
                     duration =
@@ -82,7 +82,7 @@ class WeatherListFragment : Fragment() {
                     duration =
                         resources.getInteger(R.integer.transition_motion_duration_long).toLong()
                 }
-                weatherListViewModel.onWeatherClicked(weather)
+                weatherListViewModel.onWeatherClicked(weather, position)
             },
             requireActivity().theme
         )
@@ -94,6 +94,9 @@ class WeatherListFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
+
+        Log.d(TAG, "weatherResultData is ${weatherListViewModel.weatherResultData.value}")
+        val isTablet = requireContext().resources.getBoolean(R.bool.isTablet)
 
         // Observe if need to retrieve weather from CurrentWeatherData API
         weatherListViewModel.weatherNeeded.observe(viewLifecycleOwner, {
@@ -124,6 +127,24 @@ class WeatherListFragment : Fragment() {
             adapter.submitList(weatherListViewModel.weatherHistory.value)
         })
 
+        weatherListViewModel.selectedPosition.observe(viewLifecycleOwner, {
+            //TODO: when orientation changed from portrait to landscape,
+            // selected position needed to be changed to -1
+            // or perform to pass selectedPosition item data(WeatherResult) to details
+            Log.d(TAG, "isTablet=$isTablet, selectedPosition=$it")
+            if (isTablet) {
+                if (it > -1 && weatherListViewModel.weatherResultData == null) {
+                    adapter.resetPositionValue()
+                }
+                adapter.notifyItemChanged(it)
+                weatherListViewModel.previousPosition.value?.let { previousPosition ->
+                    adapter.notifyItemChanged(
+                        previousPosition
+                    )
+                }
+            }
+        })
+
         // Observe if some message needed to be shown in weather log fragment
         weatherListViewModel.showMessage.observe(viewLifecycleOwner, {
             if (it != null) {
@@ -139,13 +160,12 @@ class WeatherListFragment : Fragment() {
          * existence check)
          * 3. Multipane views added (layout-land/fragment_weather_list here)*/
         weatherListViewModel.navigateToDetails.observe(viewLifecycleOwner, {
-            Log.d(TAG, "weatherResult=$it")
             if (it != null) {
-                Log.d(TAG, "isTable = ${requireContext().resources.getBoolean(R.bool.isTablet)}")
-                when (requireContext().resources.getBoolean(R.bool.isTablet)) {
+                when (isTablet) {
                     true -> {
                         val navHostFragment =
-                            childFragmentManager.findFragmentById(R.id.details_nav_host_fragment) as NavHostFragment
+                            childFragmentManager.findFragmentById(R.id.details_nav_host_fragment)
+                                    as NavHostFragment
 
 //                        navHostFragment.navController.navigate(WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
 //                                it
@@ -159,9 +179,6 @@ class WeatherListFragment : Fragment() {
                                 it
                             )
                         )
-//                        val bundle = bundleOf("weatherResult" to it)
-//                        this.findNavController().navigate(R.id.weatherDetailsFragment, bundle)
-
                     }
                 }
                 weatherListViewModel.navigateToDetailsComplete()

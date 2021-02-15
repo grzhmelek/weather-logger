@@ -3,5 +3,6 @@
     <declare-styleable name="ApplicationTheme">
         <attr name="colorColdVariant" format="color" />
         <attr name="colorFabIcon" format="color" />
+        <attr name="colorSecondaryLight" format="color"/>
     </declare-styleable>
 </resources>

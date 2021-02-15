@@ -45,6 +45,14 @@ class WeatherListViewModel(
     val navigateToDetails: LiveData<WeatherResult>
         get() = _navigateToDetails
 
+    private val _selectedPosition = MutableLiveData<Int>()
+    val selectedPosition: LiveData<Int>
+        get() = _selectedPosition
+
+    private val _previousPosition = MutableLiveData<Int>()
+    val previousPosition: LiveData<Int>
+        get() = _previousPosition
+
     private val _showMessage = MutableLiveData<String>()
     val showMessage: LiveData<String>
         get() = _showMessage
@@ -143,8 +151,12 @@ class WeatherListViewModel(
         _isProgressVisible.postValue(false)
     }
 
-    fun onWeatherClicked(weatherResult: WeatherResult) {
+    fun onWeatherClicked(weatherResult: WeatherResult, position: Int) {
+        Log.d(TAG, "onWeatherClicked")
         _navigateToDetails.value = weatherResult
+        _previousPosition.value = _selectedPosition.value
+        _selectedPosition.value = position
+
     }
 
     private fun initializeWeatherHistory() {
