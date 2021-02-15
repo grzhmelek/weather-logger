@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherDetailsBinding
 
 class WeatherDetailsFragment : Fragment() {
@@ -24,7 +24,7 @@ class WeatherDetailsFragment : Fragment() {
             WeatherDetailsViewModelFactory(application, arguments.weatherResult)
 
         val weatherDetailsViewModel: WeatherDetailsViewModel =
-            ViewModelProviders.of(this, weatherDetailsViewModelFactory)
+            ViewModelProvider(this, weatherDetailsViewModelFactory)
                 .get(WeatherDetailsViewModel::class.java)
 
         binding.weatherDetailsViewModel = weatherDetailsViewModel
@@ -32,11 +32,11 @@ class WeatherDetailsFragment : Fragment() {
 
         // Transitions
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            binding.root.transitionName = arguments.weatherResult.weatherResultId.toString()
+            binding.root.transitionName = arguments.weatherResult?.weatherResultId.toString()
         }
 
         weatherDetailsViewModel.weatherData.observe(viewLifecycleOwner, {
-            if (it.main?.temp != null) weatherDetailsViewModel.setTemperatureColor(
+            if (it?.main?.temp != null) weatherDetailsViewModel.setTemperatureColor(
                 binding.temperature.context,
                 it.main.temp
             )

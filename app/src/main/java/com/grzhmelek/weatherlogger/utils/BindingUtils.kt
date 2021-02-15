@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
@@ -24,9 +25,9 @@ fun bindMillisToString(textView: TextView, millis: Long) {
 }
 
 @BindingAdapter("weather_icon")
-fun bindIcon(imageView: ImageView, weatherResult: WeatherResult) {
+fun bindIcon(imageView: ImageView, weatherResult: WeatherResult?) {
     val context = imageView.context
-    val drawable = if (weatherResult.weather?.get(0)?.icon != null) {
+    val drawable = if (weatherResult?.weather?.get(0)?.icon != null) {
         getDrawable(context, weatherResult.weather[0].icon!!)
     } else {
         getDrawable(context, "")
@@ -48,6 +49,11 @@ fun bindProgress(imageView: ImageView, isProgressVisible: Boolean) {
 @BindingAdapter("empty_text_visibility")
 fun bindEmptyText(textView: TextView, isEmptyTextVisible: Boolean) {
     textView.visibility = if (isEmptyTextVisible) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("details_visibility")
+fun bindDetails(view: ScrollView, isEmptyTextVisible: Boolean) {
+    view.visibility = if (isEmptyTextVisible) View.GONE else View.VISIBLE
 }
 
 @BindingAdapter("format_temperature")

@@ -7,7 +7,7 @@ import com.grzhmelek.weatherlogger.list.WeatherResult
 
 class WeatherDetailsViewModelFactory(
     private val application: Application,
-    private val weatherResult: WeatherResult
+    private val weatherResult: WeatherResult?
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

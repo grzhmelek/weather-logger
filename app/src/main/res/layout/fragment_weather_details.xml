@@ -10,226 +10,242 @@
             type="com.grzhmelek.weatherlogger.details.WeatherDetailsViewModel" />
     </data>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".details.WeatherDetailsFragment">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
+            android:id="@+id/details_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin">
+            android:layout_height="match_parent"
+            app:details_visibility="@{weatherDetailsViewModel.isEmptyDetailsTextVisible()}"
+            tools:context=".details.WeatherDetailsFragment">
 
-            <TextView
-                android:id="@+id/date"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:textAppearance="?attr/textAppearanceListItem"
-                app:convert_millis="@{weatherDetailsViewModel.weatherData.date}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="02.06.2083" />
-
-            <TextView
-                android:id="@+id/temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:textSize="@dimen/text_size_temperature"
-                app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp}"
-                app:temperature_text_color="@{weatherDetailsViewModel.temperatureTextColor}"
-                app:layout_constraintBottom_toBottomOf="@+id/description"
-                app:layout_constraintLeft_toLeftOf="@+id/date"
-                app:layout_constraintStart_toStartOf="@+id/date"
-                app:layout_constraintTop_toTopOf="@+id/name"
-                tools:text="+12"/>
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:text="@{weatherDetailsViewModel.weatherData.name}"
-                android:textAppearance="?attr/textAppearanceListItem"
-                app:layout_constraintLeft_toRightOf="@+id/temperature"
-                app:layout_constraintRight_toLeftOf="@+id/icon"
-                app:layout_constraintStart_toEndOf="@+id/temperature"
-                app:layout_constraintTop_toBottomOf="@+id/date"
-                tools:text="Riga" />
-
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="@{weatherDetailsViewModel.weatherData.weather.get(0).description}"
-                android:textAppearance="?attr/textAppearanceListItem"
-                app:layout_constraintLeft_toRightOf="@+id/temperature"
-                app:layout_constraintRight_toLeftOf="@+id/icon"
-                app:layout_constraintStart_toEndOf="@+id/temperature"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                tools:text="Partly cloudy" />
-
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/icon_weather_size"
-                android:layout_height="@dimen/icon_weather_size"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                app:layout_constraintBottom_toBottomOf="@+id/description"
-                app:layout_constraintEnd_toEndOf="@+id/date"
-                app:layout_constraintTop_toTopOf="@+id/name"
-                app:weather_icon="@{weatherDetailsViewModel.weatherData}"
-                tools:src="@drawable/ic_02d" />
-
-            <TextView
-                android:id="@+id/category_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="@string/title_category_main"
-                android:textAppearance="?textAppearanceHeadline6"
-                android:textColor="?colorSecondaryVariant"
-                app:layout_constraintStart_toStartOf="@+id/temperature"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
-
-            <LinearLayout
-                android:id="@+id/feels_like_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/category_main"
-                app:layout_constraintTop_toBottomOf="@+id/category_main">
+                android:layout_margin="@dimen/text_margin">
 
                 <TextView
-                    android:id="@+id/feels_like_label"
+                    android:id="@+id/date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    app:convert_millis="@{weatherDetailsViewModel.weatherData.date}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="02.06.2083" />
+
+                <TextView
+                    android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/text_margin"
-                    android:text="@string/label_feels_like" />
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginBottom="@dimen/text_margin"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="@dimen/text_size_temperature"
+                    app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp}"
+                    app:layout_constraintBottom_toBottomOf="@+id/description"
+                    app:layout_constraintLeft_toLeftOf="@+id/date"
+                    app:layout_constraintStart_toStartOf="@+id/date"
+                    app:layout_constraintTop_toTopOf="@+id/name"
+                    app:temperature_text_color="@{weatherDetailsViewModel.temperatureTextColor}"
+                    tools:text="+12" />
 
                 <TextView
-                    android:id="@+id/feels_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:format_temperature="@{weatherDetailsViewModel.weatherData.main.feels_like}"
-                    tools:text="+15" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/temp_min_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/feels_like_container"
-                app:layout_constraintTop_toBottomOf="@+id/feels_like_container">
-
-                <TextView
-                    android:id="@+id/temp_min_label"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_margin"
+                    android:layout_marginTop="@dimen/text_margin"
                     android:layout_marginRight="@dimen/text_margin"
-                    android:text="@string/label_temp_min" />
+                    android:text="@{weatherDetailsViewModel.weatherData.name}"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    app:layout_constraintLeft_toRightOf="@+id/temperature"
+                    app:layout_constraintRight_toLeftOf="@+id/icon"
+                    app:layout_constraintStart_toEndOf="@+id/temperature"
+                    app:layout_constraintTop_toBottomOf="@+id/date"
+                    tools:text="Riga" />
 
                 <TextView
-                    android:id="@+id/temp_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp_min}"
-                    tools:text="+15" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/temp_max_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/temp_min_container"
-                app:layout_constraintTop_toBottomOf="@+id/temp_min_container">
-
-                <TextView
-                    android:id="@+id/temp_max_label"
+                    android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_margin"
                     android:layout_marginRight="@dimen/text_margin"
-                    android:text="@string/label_temp_max" />
+                    android:layout_marginBottom="@dimen/text_margin"
+                    android:text="@{weatherDetailsViewModel.weatherData.weather.get(0).description}"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    app:layout_constraintLeft_toRightOf="@+id/temperature"
+                    app:layout_constraintRight_toLeftOf="@+id/icon"
+                    app:layout_constraintStart_toEndOf="@+id/temperature"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    tools:text="Partly cloudy" />
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="@dimen/icon_weather_size"
+                    android:layout_height="@dimen/icon_weather_size"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginBottom="@dimen/text_margin"
+                    app:layout_constraintBottom_toBottomOf="@+id/description"
+                    app:layout_constraintEnd_toEndOf="@+id/date"
+                    app:layout_constraintTop_toTopOf="@+id/name"
+                    app:weather_icon="@{weatherDetailsViewModel.weatherData}"
+                    tools:src="@drawable/ic_02d" />
 
                 <TextView
-                    android:id="@+id/temp_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp_max}"
-                    tools:text="+15" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/humidity_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/temp_max_container"
-                app:layout_constraintTop_toBottomOf="@+id/temp_max_container">
-
-                <TextView
-                    android:id="@+id/humidity_label"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/category_main"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/text_margin"
-                    android:text="@string/label_humidity" />
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginBottom="@dimen/text_margin"
+                    android:text="@string/title_category_main"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    android:textColor="?colorSecondaryVariant"
+                    app:layout_constraintStart_toStartOf="@+id/temperature"
+                    app:layout_constraintTop_toBottomOf="@+id/description" />
 
-                <TextView
-                    android:id="@+id/humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:humidity="@{weatherDetailsViewModel.weatherData.main.humidity}"
-                    tools:text="15%" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/category_wind"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="@string/title_category_wind"
-                android:textAppearance="?textAppearanceHeadline6"
-                android:textColor="?colorSecondaryVariant"
-                app:layout_constraintStart_toStartOf="@+id/humidity_container"
-                app:layout_constraintTop_toBottomOf="@+id/humidity_container" />
-
-            <LinearLayout
-                android:id="@+id/speed_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/category_wind"
-                app:layout_constraintTop_toBottomOf="@+id/category_wind">
-
-                <TextView
-                    android:id="@+id/speed_label"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/feels_like_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/text_margin"
-                    android:text="@string/label_speed" />
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/category_main"
+                    app:layout_constraintTop_toBottomOf="@+id/category_main">
+
+                    <TextView
+                        android:id="@+id/feels_like_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_margin"
+                        android:text="@string/label_feels_like" />
+
+                    <TextView
+                        android:id="@+id/feels_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:format_temperature="@{weatherDetailsViewModel.weatherData.main.feels_like}"
+                        tools:text="+15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/temp_min_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/feels_like_container"
+                    app:layout_constraintTop_toBottomOf="@+id/feels_like_container">
+
+                    <TextView
+                        android:id="@+id/temp_min_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_margin"
+                        android:text="@string/label_temp_min" />
+
+                    <TextView
+                        android:id="@+id/temp_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp_min}"
+                        tools:text="+15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/temp_max_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/temp_min_container"
+                    app:layout_constraintTop_toBottomOf="@+id/temp_min_container">
+
+                    <TextView
+                        android:id="@+id/temp_max_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_margin"
+                        android:text="@string/label_temp_max" />
+
+                    <TextView
+                        android:id="@+id/temp_max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:format_temperature="@{weatherDetailsViewModel.weatherData.main.temp_max}"
+                        tools:text="+15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/humidity_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/temp_max_container"
+                    app:layout_constraintTop_toBottomOf="@+id/temp_max_container">
+
+                    <TextView
+                        android:id="@+id/humidity_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_margin"
+                        android:text="@string/label_humidity" />
+
+                    <TextView
+                        android:id="@+id/humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:humidity="@{weatherDetailsViewModel.weatherData.main.humidity}"
+                        tools:text="15%" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/speed"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/category_wind"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:speed="@{weatherDetailsViewModel.weatherData.wind.speed}"
-                    tools:text="15 m/s" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginBottom="@dimen/text_margin"
+                    android:text="@string/title_category_wind"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    android:textColor="?colorSecondaryVariant"
+                    app:layout_constraintStart_toStartOf="@+id/humidity_container"
+                    app:layout_constraintTop_toBottomOf="@+id/humidity_container" />
 
-    </ScrollView>
+                <LinearLayout
+                    android:id="@+id/speed_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/category_wind"
+                    app:layout_constraintTop_toBottomOf="@+id/category_wind">
+
+                    <TextView
+                        android:id="@+id/speed_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_margin"
+                        android:text="@string/label_speed" />
+
+                    <TextView
+                        android:id="@+id/speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:speed="@{weatherDetailsViewModel.weatherData.wind.speed}"
+                        tools:text="15 m/s" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/empty_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/empty_details"
+            app:empty_text_visibility="@{weatherDetailsViewModel.isEmptyDetailsTextVisible()}" />
+
+    </FrameLayout>
 </layout>

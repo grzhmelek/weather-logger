@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
@@ -72,11 +74,13 @@ class WeatherListFragment : Fragment() {
             WeatherClickListener { weather ->
                 // Transitions
                 exitTransition = MaterialElevationScale(true).apply {
-                    duration = resources.getInteger(R.integer.transition_motion_duration_short).toLong()
+                    duration =
+                        resources.getInteger(R.integer.transition_motion_duration_short).toLong()
                 }
 
                 reenterTransition = MaterialElevationScale(true).apply {
-                    duration = resources.getInteger(R.integer.transition_motion_duration_long).toLong()
+                    duration =
+                        resources.getInteger(R.integer.transition_motion_duration_long).toLong()
                 }
                 weatherListViewModel.onWeatherClicked(weather)
             },
@@ -129,13 +133,37 @@ class WeatherListFragment : Fragment() {
         })
 
         // Observe if navigation to details fragment needed
+        /** To support multipane screens:
+         * 1. Additional navigation graph created (navigation_list here)
+         * 2. bools.xml added with isTable value (probably replace with child nav host fragment
+         * existence check)
+         * 3. Multipane views added (layout-land/fragment_weather_list here)*/
         weatherListViewModel.navigateToDetails.observe(viewLifecycleOwner, {
+            Log.d(TAG, "weatherResult=$it")
             if (it != null) {
-                this.findNavController().navigate(
-                    WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
-                        it
-                    )
-                )
+                Log.d(TAG, "isTable = ${requireContext().resources.getBoolean(R.bool.isTablet)}")
+                when (requireContext().resources.getBoolean(R.bool.isTablet)) {
+                    true -> {
+                        val navHostFragment =
+                            childFragmentManager.findFragmentById(R.id.details_nav_host_fragment) as NavHostFragment
+
+//                        navHostFragment.navController.navigate(WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
+//                                it
+//                        ))
+                        val bundle = bundleOf("weatherResult" to it)
+                        navHostFragment.navController.navigate(R.id.weatherDetailsFragment, bundle)
+                    }
+                    false -> {
+                        this.findNavController().navigate(
+                            WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
+                                it
+                            )
+                        )
+//                        val bundle = bundleOf("weatherResult" to it)
+//                        this.findNavController().navigate(R.id.weatherDetailsFragment, bundle)
+
+                    }
+                }
                 weatherListViewModel.navigateToDetailsComplete()
             }
         })

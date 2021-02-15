@@ -28,8 +28,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#-keep class com.grzhmelek.weatherlogger.list.WeatherResult.** { *; }
-#-keepclassmembers class com.grzhmelek.weatherlogger.list.WeatherResult.** { *; }
+-dontwarn androidx.databinding.**
+-keep class androidx.databinding.** { *; }
+-keep class * extends androidx.databinding.DataBinderMapper
+-keep class * extends androidx.databinding.ViewDataBinding
 
 #Rules for third-party libs
 ##---------------Begin: proguard configuration for Gson  ----------
