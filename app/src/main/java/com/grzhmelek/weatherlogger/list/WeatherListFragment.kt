@@ -133,9 +133,6 @@ class WeatherListFragment : Fragment() {
             // or perform to pass selectedPosition item data(WeatherResult) to details
             Log.d(TAG, "isTablet=$isTablet, selectedPosition=$it")
             if (isTablet) {
-                if (it > -1 && weatherListViewModel.weatherResultData == null) {
-                    adapter.resetPositionValue()
-                }
                 adapter.notifyItemChanged(it)
                 weatherListViewModel.previousPosition.value?.let { previousPosition ->
                     adapter.notifyItemChanged(

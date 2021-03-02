@@ -30,7 +30,7 @@ class WeatherLoggerWidgetProvider : AppWidgetProvider() {
 
         // Construct the RemoteViews object
         val views = RemoteViews(context.packageName, R.layout.weather_logger_widget)
-        // Construct an Intent object includes web adresss.
+        // Construct an Intent object includes web address.
 //        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://erenutku.com"))
 
         val intent = Intent(context, MainActivity::class.java)

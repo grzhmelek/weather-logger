@@ -91,6 +91,7 @@
             app:layout_constraintEnd_toEndOf="@+id/date"
             app:layout_constraintTop_toTopOf="@+id/name"
             app:weather_icon="@{weatherResult}"
-            tools:src="@drawable/ic_02d" />
+            tools:src="@drawable/ic_02d"
+            android:contentDescription="@string/content_description_weather_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

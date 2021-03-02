@@ -4,6 +4,7 @@
     <dimen name="text_size_temperature">40sp</dimen>
     <dimen name="icon_weather_size">50dp</dimen>
     <dimen name="widget_margin">16dp</dimen>
+    <dimen name="list_margin_land">100dp</dimen>
 
     <item name="transition_motion_duration_short" format="integer" type="integer">300</item>
     <item name="transition_motion_duration_long" format="integer" type="integer">1000</item>

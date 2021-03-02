@@ -82,10 +82,6 @@ class WeatherRecyclerViewAdapter(
             var selectedPosition: Int = -1
         }
     }
-
-    fun resetPositionValue() {
-        selectedPosition = -1
-    }
 }
 
 class WeatherDiffCallback : DiffUtil.ItemCallback<WeatherResult>() {

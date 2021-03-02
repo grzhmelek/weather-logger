@@ -91,6 +91,7 @@
                     android:layout_height="@dimen/icon_weather_size"
                     android:layout_marginTop="@dimen/text_margin"
                     android:layout_marginBottom="@dimen/text_margin"
+                    android:contentDescription="@string/content_description_weather_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/description"
                     app:layout_constraintEnd_toEndOf="@+id/date"
                     app:layout_constraintTop_toTopOf="@+id/name"
@@ -121,6 +122,7 @@
                         android:id="@+id/feels_like_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/text_margin"
                         android:layout_marginRight="@dimen/text_margin"
                         android:text="@string/label_feels_like" />
 
@@ -144,6 +146,7 @@
                         android:id="@+id/temp_min_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/text_margin"
                         android:layout_marginRight="@dimen/text_margin"
                         android:text="@string/label_temp_min" />
 
@@ -167,6 +170,7 @@
                         android:id="@+id/temp_max_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/text_margin"
                         android:layout_marginRight="@dimen/text_margin"
                         android:text="@string/label_temp_max" />
 
@@ -190,6 +194,7 @@
                         android:id="@+id/humidity_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/text_margin"
                         android:layout_marginRight="@dimen/text_margin"
                         android:text="@string/label_humidity" />
 
@@ -225,6 +230,7 @@
                         android:id="@+id/speed_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/text_margin"
                         android:layout_marginRight="@dimen/text_margin"
                         android:text="@string/label_speed" />
 

@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ic_launcher_foreground"
         android:gravity="center"
-        android:padding="@dimen/widget_margin" />
+        android:padding="@dimen/widget_margin"
+        android:contentDescription="@string/content_description_weather_logger_widget" />
 
 </LinearLayout>

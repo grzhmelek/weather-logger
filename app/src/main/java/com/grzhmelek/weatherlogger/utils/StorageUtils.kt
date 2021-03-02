@@ -27,7 +27,7 @@ suspend fun storeImage(context: Context, imageData: Bitmap, fileName: String): U
         if (!sdIconStorageDir.exists()) {
             sdIconStorageDir.mkdirs()
         }
-        var filePath = ""
+        val filePath: String
         try {
             filePath = sdIconStorageDir.toString() + File.separator + fileName
             val fileOutputStream = FileOutputStream(filePath)
