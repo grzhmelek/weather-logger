@@ -3,7 +3,7 @@ package com.grzhmelek.weatherlogger.details
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 
 class WeatherDetailsViewModelFactory(
     private val application: Application,

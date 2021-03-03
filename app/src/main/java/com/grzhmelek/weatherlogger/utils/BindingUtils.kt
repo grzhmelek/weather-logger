@@ -10,7 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*

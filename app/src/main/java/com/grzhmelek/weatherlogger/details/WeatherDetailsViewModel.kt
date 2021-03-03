@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 
 class WeatherDetailsViewModel(
     @get:JvmName("getApplication_") val application: Application,

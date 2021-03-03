@@ -1,6 +1,6 @@
 package com.grzhmelek.weatherlogger.network
 
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

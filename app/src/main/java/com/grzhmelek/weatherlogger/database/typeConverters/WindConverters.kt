@@ -3,7 +3,7 @@ package com.grzhmelek.weatherlogger.database.typeConverters
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.grzhmelek.weatherlogger.list.Wind
+import com.grzhmelek.weatherlogger.data.Wind
 import java.lang.reflect.Type
 
 class WindConverters {

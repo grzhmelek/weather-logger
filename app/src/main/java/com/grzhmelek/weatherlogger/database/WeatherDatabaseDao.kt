@@ -1,7 +1,7 @@
 package com.grzhmelek.weatherlogger.database
 
 import androidx.room.*
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 
 @Dao
 interface WeatherDatabaseDao {

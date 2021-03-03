@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.grzhmelek.weatherlogger.R
+import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.grzhmelek.weatherlogger.databinding.WeatherListItemBinding
 import com.grzhmelek.weatherlogger.list.WeatherRecyclerViewAdapter.ViewHolder.Companion.selectedPosition
 

@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.grzhmelek.weatherlogger.database.typeConverters.MainConverters
 import com.grzhmelek.weatherlogger.database.typeConverters.WeatherConverters
 import com.grzhmelek.weatherlogger.database.typeConverters.WindConverters
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 
 @Database(entities = [WeatherResult::class], version = 1, exportSchema = false)
 @TypeConverters(

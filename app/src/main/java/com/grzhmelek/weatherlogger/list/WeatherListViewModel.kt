@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.grzhmelek.weatherlogger.R
+import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.network.WeatherApi
 import com.grzhmelek.weatherlogger.utils.GpsTracker
