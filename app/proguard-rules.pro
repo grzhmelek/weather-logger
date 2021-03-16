@@ -61,9 +61,9 @@
   @com.google.gson.annotations.SerializedName <fields>;
 }
 
--keep class com.grzhmelek.weatherlogger.list.WeatherResult.** { *; }
--keep public class com.grzhmelek.weatherlogger.list.WeatherResult     { public protected *; }
--keep public class com.grzhmelek.weatherlogger.list.Weather { public protected *; }
--keep public class com.grzhmelek.weatherlogger.list.Main { public protected *; }
--keep public class com.grzhmelek.weatherlogger.list.Wind { public protected *; }
+-keep class com.grzhmelek.weatherlogger.data.WeatherResult.** { *; }
+-keep public class com.grzhmelek.weatherlogger.data.WeatherResult     { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.data.Weather { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.data.Main { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.data.Wind { public protected *; }
 ##---------------End: proguard configuration for Gson  ----------
