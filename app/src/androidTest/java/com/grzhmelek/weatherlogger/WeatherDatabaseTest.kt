@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
-import com.grzhmelek.weatherlogger.list.WeatherResult
+import com.grzhmelek.weatherlogger.data.WeatherResult
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
