@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.database.typeConverters
+package com.grzhmelek.weatherlogger.database.typeconverters
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
