@@ -34,11 +34,7 @@ class WeatherListViewModel(
     private val _weatherResultData = MutableLiveData<WeatherResult>()
     val weatherResultData: LiveData<WeatherResult> = _weatherResultData
 
-    private val _weatherHistory = MutableLiveData<List<WeatherResult>>()
-    val weatherHistory: LiveData<List<WeatherResult>> = _weatherHistory
-
-    private val _navigateToDetails = MutableLiveData<WeatherResult>()
-    val navigateToDetails: LiveData<WeatherResult> = _navigateToDetails
+    val setWeatherHistoryEvent = SingleLiveEvent<List<WeatherResult>>()
 
     private val _selectedPosition = MutableLiveData<Int>()
     val selectedPosition: LiveData<Int> = _selectedPosition
@@ -46,20 +42,20 @@ class WeatherListViewModel(
     private val _previousPosition = MutableLiveData<Int>()
     val previousPosition: LiveData<Int> = _previousPosition
 
-    private val _showMessage = MutableLiveData<String>()
-    val showMessage: LiveData<String> = _showMessage
-
     private val _isProgressVisible = MutableLiveData<Boolean>()
     val isProgressVisible = _isProgressVisible.map { true == it }
 
-    val isEmptyTextVisible = _weatherHistory.map { it.isEmpty() }
+    val isEmptyTextVisible = setWeatherHistoryEvent.map { it.isEmpty() }
 
-    private val _imageUriToShare = MutableLiveData<Uri>()
-    val imageUriToShare: LiveData<Uri> = _imageUriToShare
+    val setImageUriToShareEvent = SingleLiveEvent<Uri>()
 
     val getCurrentLocationEvent = SingleLiveEvent<Pair<Double, Double>>()
 
     val getWeatherEvent = SingleLiveEvent<Unit>()
+
+    val showMessageEvent = SingleLiveEvent<String>()
+
+    val navigateToDetailsEvent = SingleLiveEvent<WeatherResult>()
 
     init {
         initializeWeatherHistory()
@@ -142,16 +138,15 @@ class WeatherListViewModel(
     }
 
     fun onWeatherClicked(weatherResult: WeatherResult, position: Int) {
-        Timber.d("onWeatherClicked")
-        _navigateToDetails.value = weatherResult
-        _previousPosition.value = _selectedPosition.value
-        _selectedPosition.value = position
+        navigateToDetailsEvent.postValue(weatherResult)
+        _previousPosition.postValue(selectedPosition.value)
+        _selectedPosition.postValue(position)
 
     }
 
     private fun initializeWeatherHistory() {
         viewModelScope.launch {
-            _weatherHistory.postValue(getWeatherHistory())
+            setWeatherHistoryEvent.postValue(getWeatherHistory())
         }
     }
 
@@ -160,7 +155,7 @@ class WeatherListViewModel(
         viewModelScope.launch {
             insetWeatherResult(weatherResult)
             _weatherResultData.postValue(null)
-            _weatherHistory.postValue(getWeatherHistory())
+            setWeatherHistoryEvent.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
         }
     }
@@ -177,19 +172,11 @@ class WeatherListViewModel(
         }
     }
 
-    fun navigateToDetailsComplete() {
-        _navigateToDetails.value = null
-    }
-
-    fun showMessageComplete() {
-        _showMessage.value = null
-    }
-
     fun clearHistory() {
         _isProgressVisible.value = true
         viewModelScope.launch {
             database.clear()
-            _weatherHistory.postValue(getWeatherHistory())
+            setWeatherHistoryEvent.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
         }
     }
@@ -223,12 +210,8 @@ class WeatherListViewModel(
         _isProgressVisible.value = true
         val fileName = "${context.getString(R.string.app_name)}_${System.currentTimeMillis()}.jpg"
         viewModelScope.launch {
-            _imageUriToShare.postValue(storeImage(context, imageData, fileName))
+            setImageUriToShareEvent.postValue(storeImage(context, imageData, fileName))
             _isProgressVisible.postValue(false)
         }
-    }
-
-    fun shareImageComplete() {
-        _imageUriToShare.value = null
     }
 }

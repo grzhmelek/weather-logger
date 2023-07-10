@@ -127,7 +127,7 @@ class WeatherListFragment : Fragment() {
 
     private fun WeatherListViewModel.observeChanges() {
         // Observe if need to retrieve weather from CurrentWeatherData API
-        weatherListViewModel.getWeatherEvent.observe(viewLifecycleOwner) {
+        getWeatherEvent.observe(viewLifecycleOwner) {
             requestLocationPermissions.launch(
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -137,31 +137,29 @@ class WeatherListFragment : Fragment() {
         }
 
         // Observe getting current location
-        weatherListViewModel.getCurrentLocationEvent.observe(viewLifecycleOwner) {
+        getCurrentLocationEvent.observe(viewLifecycleOwner) {
             Timber.d("Current location=$it")
             getWeatherByLocation(it)
         }
 
         // Observe weather data retrieved from CurrentWeatherData API
-        weatherListViewModel.weatherResultData.observe(viewLifecycleOwner) {
-            if (it?.main != null) {
-                weatherListViewModel.insertCurrentWeather(it)
-            }
+        weatherResultData.observe(viewLifecycleOwner) {
+            if (it?.main != null) { insertCurrentWeather(it) }
         }
 
         // Observe weather log red from database
-        weatherListViewModel.weatherHistory.observe(viewLifecycleOwner) {
-            adapter.submitList(weatherListViewModel.weatherHistory.value)
+        setWeatherHistoryEvent.observe(viewLifecycleOwner) {
+            adapter.submitList(setWeatherHistoryEvent.value)
         }
 
-        weatherListViewModel.selectedPosition.observe(viewLifecycleOwner) {
+        selectedPosition.observe(viewLifecycleOwner) {
             //TODO: when orientation changed from portrait to landscape,
             // selected position needed to be changed to -1
             // or perform to pass selectedPosition item data(WeatherResult) to details
             Timber.d("isTablet=$isTablet, selectedPosition=$it")
             if (isTablet) {
                 adapter.notifyItemChanged(it)
-                weatherListViewModel.previousPosition.value?.let { previousPosition ->
+                previousPosition.value?.let { previousPosition ->
                     adapter.notifyItemChanged(
                         previousPosition
                     )
@@ -170,11 +168,8 @@ class WeatherListFragment : Fragment() {
         }
 
         // Observe if some message needed to be shown in weather log fragment
-        weatherListViewModel.showMessage.observe(viewLifecycleOwner) {
-            if (it != null) {
-                Toast.makeText(application, it, Toast.LENGTH_SHORT).show()
-                weatherListViewModel.showMessageComplete()
-            }
+        showMessageEvent.observe(viewLifecycleOwner) {
+            Toast.makeText(application, it, Toast.LENGTH_SHORT).show()
         }
 
         // Observe if navigation to details fragment needed
@@ -183,37 +178,32 @@ class WeatherListFragment : Fragment() {
          * 2. bools.xml added with isTable value (probably replace with child nav host fragment
          * existence check)
          * 3. Multipane views added (layout-land/fragment_weather_list here)*/
-        weatherListViewModel.navigateToDetails.observe(viewLifecycleOwner) {
-            if (it != null) {
-                when (isTablet) {
-                    true -> {
-                        val navHostFragment =
-                            childFragmentManager.findFragmentById(R.id.details_nav_host_fragment) as NavHostFragment
+        navigateToDetailsEvent.observe(viewLifecycleOwner) {
+            when (isTablet) {
+                true -> {
+                    val navHostFragment =
+                        childFragmentManager.findFragmentById(R.id.details_nav_host_fragment) as NavHostFragment
 
-                        navHostFragment.navController.navigate(
-                            WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
-                                it
-                            )
+                    navHostFragment.navController.navigate(
+                        WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
+                            it
                         )
-                    }
-
-                    false -> {
-                        findNavController().navigate(
-                            WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
-                                it
-                            )
-                        )
-                    }
+                    )
                 }
-                weatherListViewModel.navigateToDetailsComplete()
+
+                false -> {
+                    findNavController().navigate(
+                        WeatherListFragmentDirections.actionWeatherListFragmentToWeatherDetailsFragment(
+                            it
+                        )
+                    )
+                }
             }
         }
 
         // Observe saved image uri for weather log sharing
-        weatherListViewModel.imageUriToShare.observe(viewLifecycleOwner) {
-            if (it != null) {
-                shareWeatherImage(it)
-            }
+        setImageUriToShareEvent.observe(viewLifecycleOwner) {
+            shareWeatherImage(it)
         }
 
     }
@@ -263,7 +253,6 @@ class WeatherListFragment : Fragment() {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.type = "image/png"
         startActivity(intent)
-        weatherListViewModel.shareImageComplete()
     }
 
 }

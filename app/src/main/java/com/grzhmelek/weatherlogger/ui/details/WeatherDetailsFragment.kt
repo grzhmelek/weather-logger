@@ -11,11 +11,14 @@ import androidx.navigation.fragment.navArgs
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherDetailsBinding
 
 class WeatherDetailsFragment : Fragment() {
+
+    private lateinit var binding: FragmentWeatherDetailsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val binding: FragmentWeatherDetailsBinding = FragmentWeatherDetailsBinding.inflate(inflater)
+        binding = FragmentWeatherDetailsBinding.inflate(inflater)
 
         val application = requireNotNull(this.activity).application
 
@@ -28,7 +31,9 @@ class WeatherDetailsFragment : Fragment() {
             ViewModelProvider(
                 this,
                 weatherDetailsViewModelFactory
-            )[WeatherDetailsViewModel::class.java]
+            )[WeatherDetailsViewModel::class.java].apply {
+                observeChanges()
+            }
 
         binding.weatherDetailsViewModel = weatherDetailsViewModel
         binding.lifecycleOwner = this
@@ -38,16 +43,18 @@ class WeatherDetailsFragment : Fragment() {
             binding.root.transitionName = arguments.weatherResult.weatherResultId.toString()
         }
 
-        weatherDetailsViewModel.weatherData.observe(viewLifecycleOwner) {
+        return binding.root
+    }
+
+    private fun WeatherDetailsViewModel.observeChanges() {
+        weatherData.observe(viewLifecycleOwner) {
             it?.main?.temp?.let { temp ->
-                weatherDetailsViewModel.setTemperatureColor(
+                setTemperatureColor(
                     binding.temperature.context,
                     temp
                 )
             }
         }
-
-        return binding.root
     }
 
 }

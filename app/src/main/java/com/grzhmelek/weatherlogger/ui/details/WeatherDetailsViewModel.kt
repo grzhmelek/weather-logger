@@ -22,7 +22,7 @@ class WeatherDetailsViewModel(
     private val _temperatureTextColor = MutableLiveData<Int>()
     val temperatureTextColor: LiveData<Int> = _temperatureTextColor
 
-    val isEmptyDetailsTextVisible = _weatherData.map { it == null}
+    val isEmptyDetailsTextVisible = _weatherData.map { it == null }
 
     init {
         _weatherData.value = weatherResult
@@ -30,12 +30,13 @@ class WeatherDetailsViewModel(
 
     fun setTemperatureColor(context: Context, temp: Double) {
         val typedValue = TypedValue()
-        val theme = context.theme
-        if (temp > 0) {
-            theme.resolveAttribute(R.attr.colorSecondaryVariant, typedValue, true)
-        } else {
-            theme.resolveAttribute(R.attr.colorColdVariant, typedValue, true)
-        }
+
+        context.theme.resolveAttribute(
+            if (temp > 0) R.attr.colorSecondaryVariant else R.attr.colorColdVariant,
+            typedValue,
+            true
+        )
+
         _temperatureTextColor.value = typedValue.data
     }
 }
