@@ -5,14 +5,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import androidx.core.content.FileProvider
 import com.grzhmelek.weatherlogger.BuildConfig
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.list.WeatherListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.*
+import timber.log.Timber
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 /**
  * Store image before sharing
@@ -37,10 +40,10 @@ suspend fun storeImage(context: Context, imageData: Bitmap, fileName: String): U
             bos.close()
             galleryAddPic(context, filePath)
         } catch (e: FileNotFoundException) {
-            Log.e(WeatherListViewModel.TAG, "FileNotFoundException: ${e.message}")
+            Timber.e("FileNotFoundException: ${e.message}")
             return@withContext
         } catch (e: IOException) {
-            Log.e(WeatherListViewModel.TAG, "IOException: ${e.message}")
+            Timber.e("IOException: ${e.message}")
             return@withContext
         }
         contentUri = getContentUri(context, filePath)

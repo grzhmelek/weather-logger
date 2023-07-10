@@ -12,8 +12,6 @@
         tools:layout="@layout/fragment_weather_details">
         <argument
             android:name="weatherResult"
-            app:argType="com.grzhmelek.weatherlogger.data.WeatherResult"
-            android:defaultValue="@null"
-            app:nullable="true"/>
+            app:argType="com.grzhmelek.weatherlogger.data.WeatherResult" />
     </fragment>
 </navigation>

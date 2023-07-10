@@ -6,20 +6,22 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.network.WeatherApi
 import com.grzhmelek.weatherlogger.utils.GpsTracker
+import com.grzhmelek.weatherlogger.utils.SingleLiveEvent
 import com.grzhmelek.weatherlogger.utils.storeImage
 import kotlinx.coroutines.*
+import timber.log.Timber
 
 class WeatherListViewModel(
     @get:JvmName("getApplication_") val application: Application,
@@ -27,91 +29,61 @@ class WeatherListViewModel(
 ) :
     AndroidViewModel(application) {
 
-    companion object {
-        val TAG = WeatherListViewModel::class.simpleName
-    }
-
-    private var weatherViewModelJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + weatherViewModelJob)
-
     private val _weatherResultData = MutableLiveData<WeatherResult>()
-    val weatherResultData: LiveData<WeatherResult>
-        get() = _weatherResultData
+    val weatherResultData: LiveData<WeatherResult> = _weatherResultData
 
     private val _weatherHistory = MutableLiveData<List<WeatherResult>>()
-    val weatherHistory: LiveData<List<WeatherResult>>
-        get() = _weatherHistory
+    val weatherHistory: LiveData<List<WeatherResult>> = _weatherHistory
 
     private val _navigateToDetails = MutableLiveData<WeatherResult>()
-    val navigateToDetails: LiveData<WeatherResult>
-        get() = _navigateToDetails
+    val navigateToDetails: LiveData<WeatherResult> = _navigateToDetails
 
     private val _selectedPosition = MutableLiveData<Int>()
-    val selectedPosition: LiveData<Int>
-        get() = _selectedPosition
+    val selectedPosition: LiveData<Int> = _selectedPosition
 
     private val _previousPosition = MutableLiveData<Int>()
-    val previousPosition: LiveData<Int>
-        get() = _previousPosition
+    val previousPosition: LiveData<Int> = _previousPosition
 
     private val _showMessage = MutableLiveData<String>()
-    val showMessage: LiveData<String>
-        get() = _showMessage
+    val showMessage: LiveData<String> = _showMessage
 
     private val _isProgressVisible = MutableLiveData<Boolean>()
-    val isProgressVisible = _isProgressVisible.map {
-        true == it
-    }
+    val isProgressVisible = _isProgressVisible.map { true == it }
 
-    val isEmptyTextVisible = _weatherHistory.map {
-        it.isEmpty()
-    }
+    val isEmptyTextVisible = _weatherHistory.map { it.isEmpty() }
 
     private val _imageUriToShare = MutableLiveData<Uri>()
-    val imageUriToShare: LiveData<Uri>
-        get() = _imageUriToShare
+    val imageUriToShare: LiveData<Uri> = _imageUriToShare
 
-    private val _currentLocation = MutableLiveData<Pair<Double, Double>>()
-    val currentLocation: LiveData<Pair<Double, Double>>
-        get() = _currentLocation
+    val getCurrentLocationEvent = SingleLiveEvent<Pair<Double, Double>>()
 
-    private val _weatherNeeded = MutableLiveData<Boolean>()
-    val weatherNeeded: LiveData<Boolean>
-        get() = _weatherNeeded
+    val getWeatherEvent = SingleLiveEvent<Unit>()
 
     init {
         initializeWeatherHistory()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        weatherViewModelJob.cancel()
-    }
-
     fun needToGetWeather() {
-        _weatherNeeded.value = true
-    }
-
-    fun weatherGettingComplete() {
-        _weatherNeeded.value = false
+        getWeatherEvent.call()
     }
 
     fun getLocation(activity: FragmentActivity) {
         val gpsTracker = GpsTracker(activity)
         if (gpsTracker.canGetLocation()) {
-            _currentLocation.value = Pair(gpsTracker.getLatitude(), gpsTracker.getLongitude())
+            getCurrentLocationEvent.postValue(
+                Pair(
+                    gpsTracker.getLatitude(),
+                    gpsTracker.getLongitude()
+                )
+            )
         } else {
             gpsTracker.showSettingsAlert()
         }
     }
 
-    fun noCurrentLocationNeeded() {
-        _currentLocation.value = null
-    }
-
     fun getWeatherResultData(cityId: String, unit: String, lang: String, appId: String) {
         _isProgressVisible.value = true
-        coroutineScope.launch {
+        viewModelScope.launch {
             val getWeatherDeferred =
                 WeatherApi.retrofitService.getWeatherByCityCodeAsync(cityId, unit, lang, appId)
             handleResult(getWeatherDeferred)
@@ -126,8 +98,8 @@ class WeatherListViewModel(
         appId: String,
     ) {
         _isProgressVisible.value = true
-        coroutineScope.launch {
-            Log.d(TAG, "getWeatherResultData current location, lat=$latitude, lon=$longitude")
+        viewModelScope.launch {
+            Timber.d("getWeatherResultData current location, lat=$latitude, lon=$longitude")
             val getWeatherDeferred =
                 WeatherApi.retrofitService.getWeatherByLocationAsync(
                     latitude,
@@ -145,7 +117,7 @@ class WeatherListViewModel(
             val weatherResult = weatherDeferred.await()
             _weatherResultData.postValue(weatherResult)
         } catch (e: Exception) {
-            Log.e(TAG, "Exception: ${e.message}")
+            Timber.e("Exception: ${e.message}")
             _weatherResultData.postValue(WeatherResult())
             _showMessage.postValue(application.getString(R.string.message_connection_error))
         }
@@ -153,7 +125,7 @@ class WeatherListViewModel(
     }
 
     fun onWeatherClicked(weatherResult: WeatherResult, position: Int) {
-        Log.d(TAG, "onWeatherClicked")
+        Timber.d("onWeatherClicked")
         _navigateToDetails.value = weatherResult
         _previousPosition.value = _selectedPosition.value
         _selectedPosition.value = position
@@ -161,14 +133,14 @@ class WeatherListViewModel(
     }
 
     private fun initializeWeatherHistory() {
-        coroutineScope.launch {
+        viewModelScope.launch {
             _weatherHistory.postValue(getWeatherHistory())
         }
     }
 
     fun insertCurrentWeather(weatherResult: WeatherResult) {
         _isProgressVisible.value = true
-        coroutineScope.launch {
+        viewModelScope.launch {
             database.insert(weatherResult)
             _weatherResultData.postValue(null)
             _weatherHistory.postValue(getWeatherHistory())
@@ -192,7 +164,7 @@ class WeatherListViewModel(
 
     fun clearHistory() {
         _isProgressVisible.value = true
-        coroutineScope.launch {
+        viewModelScope.launch {
             database.clear()
             _weatherHistory.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
@@ -227,7 +199,7 @@ class WeatherListViewModel(
     private fun storeImage(context: Context, imageData: Bitmap) {
         _isProgressVisible.value = true
         val fileName = "${context.getString(R.string.app_name)}_${System.currentTimeMillis()}.jpg"
-        coroutineScope.launch {
+        viewModelScope.launch {
             _imageUriToShare.postValue(storeImage(context, imageData, fileName))
             _isProgressVisible.postValue(false)
         }

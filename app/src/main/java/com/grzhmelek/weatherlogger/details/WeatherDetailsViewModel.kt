@@ -17,16 +17,12 @@ class WeatherDetailsViewModel(
     AndroidViewModel(application) {
 
     private val _weatherData = MutableLiveData<WeatherResult>()
-    val weatherData: LiveData<WeatherResult>
-        get() = _weatherData
+    val weatherData: LiveData<WeatherResult> = _weatherData
 
     private val _temperatureTextColor = MutableLiveData<Int>()
-    val temperatureTextColor: LiveData<Int>
-        get() = _temperatureTextColor
+    val temperatureTextColor: LiveData<Int> = _temperatureTextColor
 
-    val isEmptyDetailsTextVisible = _weatherData.map {
-        it == null
-    }
+    val isEmptyDetailsTextVisible = _weatherData.map { it == null}
 
     init {
         _weatherData.value = weatherResult

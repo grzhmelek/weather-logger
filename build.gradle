@@ -21,6 +21,7 @@ buildscript {
     ext.navigation_version = '2.6.0'
 //    ext.glide_version = "4.8.0"
     ext.coil_version = "1.1.1"
+    ext.timber_version = "5.0.1"
     ext.junit_version = "1.1.5"
     ext.espresso_core_version = "3.5.1"
     repositories {

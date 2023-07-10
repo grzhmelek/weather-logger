@@ -2,17 +2,26 @@ package com.grzhmelek.weatherlogger
 
 import android.app.Application
 import android.os.Build
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.grzhmelek.weatherlogger.work.RefreshDataWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class WeatherLoggerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         delayedInit()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private val applicationScope = CoroutineScope(Dispatchers.Default)

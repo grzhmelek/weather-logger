@@ -1,6 +1,7 @@
 package com.grzhmelek.weatherlogger.data
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,6 +9,7 @@ import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 @JsonClass(generateAdapter = true)
+@Keep
 @Parcelize
 @Entity(tableName = "weather_history_table")
 data class WeatherResult(
@@ -22,7 +24,7 @@ data class WeatherResult(
     @ColumnInfo(name = "main")
     val main: Main? = Main(),
     @ColumnInfo(name = "wind")
-    val wind: Wind? = Wind()
+    val wind: Wind? = Wind(),
 ) : Parcelable {
     constructor() : this(null, null, null, null, null, null)
 }
@@ -32,7 +34,7 @@ class Weather(
     val id: Long?,
     val main: String?,
     val description: String?,
-    val icon: String?
+    val icon: String?,
 ) : Parcelable {
     constructor() : this(null, null, null, null)
 }
@@ -44,14 +46,14 @@ class Main(
     val temp_min: Double?,
     val temp_max: Double?,
     val pressure: Int?,
-    val humidity: Int?
+    val humidity: Int?,
 ) : Parcelable {
     constructor() : this(null, null, null, null, null, null)
 }
 
 @Parcelize
 class Wind(
-    val speed: Double?
+    val speed: Double?,
 ) : Parcelable {
     constructor() : this(null)
 }

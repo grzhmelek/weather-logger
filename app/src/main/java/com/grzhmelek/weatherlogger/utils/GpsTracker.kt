@@ -12,16 +12,15 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.grzhmelek.weatherlogger.R
+import timber.log.Timber
 
 class GpsTracker(private val mContext: Context) : Service(),
     LocationListener {
 
     companion object {
-        private val TAG = GpsTracker::class.simpleName
 
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES: Long = 100 // 100 meters
         private const val MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 1 // 1 minute
@@ -73,7 +72,7 @@ class GpsTracker(private val mContext: Context) : Service(),
                         MIN_TIME_BETWEEN_UPDATES,
                         MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this
                     )
-                    Log.d(TAG, "Network")
+                    Timber.d("Network")
                     if (locationManager != null) {
                         location = locationManager!!
                             .getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
@@ -100,7 +99,7 @@ class GpsTracker(private val mContext: Context) : Service(),
                             MIN_TIME_BETWEEN_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this
                         )
-                        Log.d(TAG, "GPS Enabled")
+                        Timber.d("GPS Enabled")
                         if (locationManager != null) {
                             location = locationManager!!
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -177,7 +176,7 @@ class GpsTracker(private val mContext: Context) : Service(),
         // On pressing Settings button
         alertDialog.setPositiveButton(
             mContext.getString(R.string.dialog_button_settings)
-        ) { dialog, which ->
+        ) { _, _ ->
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             mContext.startActivity(intent)
         }
