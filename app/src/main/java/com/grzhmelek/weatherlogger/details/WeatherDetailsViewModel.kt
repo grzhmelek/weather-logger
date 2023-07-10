@@ -6,13 +6,13 @@ import android.util.TypedValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.data.WeatherResult
 
 class WeatherDetailsViewModel(
     @get:JvmName("getApplication_") val application: Application,
-    val weatherResult: WeatherResult?
+    val weatherResult: WeatherResult?,
 ) :
     AndroidViewModel(application) {
 
@@ -24,7 +24,7 @@ class WeatherDetailsViewModel(
     val temperatureTextColor: LiveData<Int>
         get() = _temperatureTextColor
 
-    val isEmptyDetailsTextVisible = Transformations.map(_weatherData) {
+    val isEmptyDetailsTextVisible = _weatherData.map {
         it == null
     }
 

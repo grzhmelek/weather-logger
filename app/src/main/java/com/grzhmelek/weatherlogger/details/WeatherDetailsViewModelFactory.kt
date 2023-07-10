@@ -9,8 +9,9 @@ class WeatherDetailsViewModelFactory(
     private val application: Application,
     private val weatherResult: WeatherResult?
 ) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(WeatherDetailsViewModel::class.java)) {
             return WeatherDetailsViewModel(application, weatherResult) as T
         }

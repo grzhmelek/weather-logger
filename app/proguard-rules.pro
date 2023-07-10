@@ -67,3 +67,11 @@
 -keep public class com.grzhmelek.weatherlogger.data.Main { public protected *; }
 -keep public class com.grzhmelek.weatherlogger.data.Wind { public protected *; }
 ##---------------End: proguard configuration for Gson  ----------
+
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE

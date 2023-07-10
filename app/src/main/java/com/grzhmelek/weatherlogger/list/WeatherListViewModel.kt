@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
@@ -23,7 +23,7 @@ import kotlinx.coroutines.*
 
 class WeatherListViewModel(
     @get:JvmName("getApplication_") val application: Application,
-    val database: WeatherDatabaseDao
+    val database: WeatherDatabaseDao,
 ) :
     AndroidViewModel(application) {
 
@@ -59,11 +59,11 @@ class WeatherListViewModel(
         get() = _showMessage
 
     private val _isProgressVisible = MutableLiveData<Boolean>()
-    val isProgressVisible = Transformations.map(_isProgressVisible) {
+    val isProgressVisible = _isProgressVisible.map {
         true == it
     }
 
-    val isEmptyTextVisible = Transformations.map(_weatherHistory) {
+    val isEmptyTextVisible = _weatherHistory.map {
         it.isEmpty()
     }
 
@@ -123,7 +123,7 @@ class WeatherListViewModel(
         longitude: Double,
         unit: String,
         lang: String,
-        appId: String
+        appId: String,
     ) {
         _isProgressVisible.value = true
         coroutineScope.launch {
