@@ -1,9 +1,9 @@
-package com.grzhmelek.weatherlogger.details
+package com.grzhmelek.weatherlogger.ui.details
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.grzhmelek.weatherlogger.data.WeatherResult
+import com.grzhmelek.weatherlogger.database.WeatherResult
 
 class WeatherDetailsViewModelFactory(
     private val application: Application,

@@ -1,8 +1,8 @@
 package com.grzhmelek.weatherlogger.network.usecases
 
-import com.grzhmelek.weatherlogger.network.ApiImpl
-import com.grzhmelek.weatherlogger.network.NetworkState
-import com.grzhmelek.weatherlogger.network.WeatherResponse
+import com.grzhmelek.weatherlogger.network.api.ApiImpl
+import com.grzhmelek.weatherlogger.network.api.NetworkState
+import com.grzhmelek.weatherlogger.network.api.WeatherResponse
 
 class WeatherByCityCodeUseCase {
 

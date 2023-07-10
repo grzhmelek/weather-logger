@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.list
+package com.grzhmelek.weatherlogger.ui.home
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

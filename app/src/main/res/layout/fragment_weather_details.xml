@@ -7,7 +7,7 @@
 
         <variable
             name="weatherDetailsViewModel"
-            type="com.grzhmelek.weatherlogger.details.WeatherDetailsViewModel" />
+            type="com.grzhmelek.weatherlogger.ui.details.WeatherDetailsViewModel" />
     </data>
 
     <FrameLayout
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:details_visibility="@{weatherDetailsViewModel.isEmptyDetailsTextVisible()}"
-            tools:context=".details.WeatherDetailsFragment">
+            tools:context=".ui.details.WeatherDetailsFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

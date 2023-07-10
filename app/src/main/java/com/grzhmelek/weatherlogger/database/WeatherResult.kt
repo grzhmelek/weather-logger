@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.data
+package com.grzhmelek.weatherlogger.database
 
 import android.os.Parcelable
 import androidx.annotation.Keep

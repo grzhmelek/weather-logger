@@ -7,7 +7,6 @@ import androidx.navigation.ui.NavigationUI
 
 class MainActivity : AppCompatActivity() {
 
-    //TODO: check for Kotlin style
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

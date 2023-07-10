@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.list
+package com.grzhmelek.weatherlogger.ui.home
 
 import android.Manifest
 import android.app.Application
@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.grzhmelek.weatherlogger.R
+import com.grzhmelek.weatherlogger.R.integer
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherListBinding
@@ -100,12 +101,12 @@ class WeatherListFragment : Fragment() {
                 // Transitions
                 exitTransition = MaterialElevationScale(true).apply {
                     duration =
-                        resources.getInteger(R.integer.transition_motion_duration_short).toLong()
+                        resources.getInteger(integer.transition_motion_duration_short).toLong()
                 }
 
                 reenterTransition = MaterialElevationScale(true).apply {
                     duration =
-                        resources.getInteger(R.integer.transition_motion_duration_long).toLong()
+                        resources.getInteger(integer.transition_motion_duration_long).toLong()
                 }
                 weatherListViewModel.onWeatherClicked(weather, position)
             },

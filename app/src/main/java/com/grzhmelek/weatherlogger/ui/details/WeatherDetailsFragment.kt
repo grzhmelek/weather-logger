@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.details
+package com.grzhmelek.weatherlogger.ui.details
 
 import android.os.Build
 import android.os.Bundle

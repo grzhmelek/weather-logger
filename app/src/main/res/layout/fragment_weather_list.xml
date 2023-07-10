@@ -7,7 +7,7 @@
 
         <variable
             name="weatherListViewModel"
-            type="com.grzhmelek.weatherlogger.list.WeatherListViewModel" />
+            type="com.grzhmelek.weatherlogger.ui.home.WeatherListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="LinearLayoutManager"
-                tools:context=".list.WeatherListFragment"
+                tools:context=".ui.home.WeatherListFragment"
                 tools:listitem="@layout/weather_list_item" />
         </androidx.core.widget.NestedScrollView>
 

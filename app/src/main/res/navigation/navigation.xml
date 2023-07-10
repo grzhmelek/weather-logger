@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/weatherListFragment"
-        android:name="com.grzhmelek.weatherlogger.list.WeatherListFragment"
+        android:name="com.grzhmelek.weatherlogger.ui.home.WeatherListFragment"
         android:label="@string/title_fragment_weather"
         tools:layout="@layout/fragment_weather_list">
         <action
@@ -16,11 +16,11 @@
     </fragment>
     <fragment
         android:id="@+id/weatherDetailsFragment"
-        android:name="com.grzhmelek.weatherlogger.details.WeatherDetailsFragment"
+        android:name="com.grzhmelek.weatherlogger.ui.details.WeatherDetailsFragment"
         android:label="@string/title_fragment_details"
         tools:layout="@layout/fragment_weather_details">
         <argument
             android:name="weatherResult"
-            app:argType="com.grzhmelek.weatherlogger.data.WeatherResult" />
+            app:argType="com.grzhmelek.weatherlogger.database.WeatherResult" />
     </fragment>
 </navigation>

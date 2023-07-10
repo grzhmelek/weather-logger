@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.list
+package com.grzhmelek.weatherlogger.ui.home
 
 import android.app.Application
 import android.content.Context
@@ -14,9 +14,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.data.WeatherResult
+import com.grzhmelek.weatherlogger.database.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
-import com.grzhmelek.weatherlogger.network.NetworkState
+import com.grzhmelek.weatherlogger.network.api.NetworkState
 import com.grzhmelek.weatherlogger.network.usecases.WeatherByCityCodeUseCase
 import com.grzhmelek.weatherlogger.network.usecases.WeatherByLocationUseCase
 import com.grzhmelek.weatherlogger.utils.GpsTracker

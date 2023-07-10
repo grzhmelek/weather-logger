@@ -61,11 +61,11 @@
   @com.google.gson.annotations.SerializedName <fields>;
 }
 
--keep class com.grzhmelek.weatherlogger.data.WeatherResult.** { *; }
--keep public class com.grzhmelek.weatherlogger.data.WeatherResult     { public protected *; }
--keep public class com.grzhmelek.weatherlogger.data.Weather { public protected *; }
--keep public class com.grzhmelek.weatherlogger.data.Main { public protected *; }
--keep public class com.grzhmelek.weatherlogger.data.Wind { public protected *; }
+-keep class com.grzhmelek.weatherlogger.database.WeatherResult.** { *; }
+-keep public class com.grzhmelek.weatherlogger.database.WeatherResult     { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.database.Weather { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.database.Main { public protected *; }
+-keep public class com.grzhmelek.weatherlogger.database.Wind { public protected *; }
 ##---------------End: proguard configuration for Gson  ----------
 
 -dontwarn org.bouncycastle.jsse.BCSSLSocket

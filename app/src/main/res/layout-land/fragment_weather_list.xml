@@ -7,7 +7,7 @@
 
         <variable
             name="weatherListViewModel"
-            type="com.grzhmelek.weatherlogger.list.WeatherListViewModel" />
+            type="com.grzhmelek.weatherlogger.ui.home.WeatherListViewModel" />
     </data>
 
     <LinearLayout
@@ -35,7 +35,7 @@
                     android:layout_marginStart="@dimen/list_margin_land"
                     android:layout_marginLeft="@dimen/list_margin_land"
                     app:layoutManager="LinearLayoutManager"
-                    tools:context=".list.WeatherListFragment"
+                    tools:context=".ui.home.WeatherListFragment"
                     tools:listitem="@layout/weather_list_item" />
             </androidx.core.widget.NestedScrollView>
 

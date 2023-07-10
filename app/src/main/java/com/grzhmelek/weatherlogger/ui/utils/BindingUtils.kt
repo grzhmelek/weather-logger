@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.utils
+package com.grzhmelek.weatherlogger.ui.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -10,7 +10,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.data.WeatherResult
+import com.grzhmelek.weatherlogger.database.WeatherResult
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*

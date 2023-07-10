@@ -1,10 +1,10 @@
-package com.grzhmelek.weatherlogger.network
+package com.grzhmelek.weatherlogger.network.api
 
 import com.google.gson.annotations.SerializedName
-import com.grzhmelek.weatherlogger.data.Main
-import com.grzhmelek.weatherlogger.data.Weather
-import com.grzhmelek.weatherlogger.data.WeatherResult
-import com.grzhmelek.weatherlogger.data.Wind
+import com.grzhmelek.weatherlogger.database.Main
+import com.grzhmelek.weatherlogger.database.Weather
+import com.grzhmelek.weatherlogger.database.WeatherResult
+import com.grzhmelek.weatherlogger.database.Wind
 
 
 data class WeatherResponse(

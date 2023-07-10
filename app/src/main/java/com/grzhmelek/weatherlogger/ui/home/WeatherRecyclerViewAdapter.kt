@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.list
+package com.grzhmelek.weatherlogger.ui.home
 
 import android.content.res.Resources
 import android.graphics.Color
@@ -10,15 +10,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.data.WeatherResult
+import com.grzhmelek.weatherlogger.database.WeatherResult
 import com.grzhmelek.weatherlogger.databinding.WeatherListItemBinding
-import com.grzhmelek.weatherlogger.list.WeatherRecyclerViewAdapter.ViewHolder.Companion.selectedPosition
+import com.grzhmelek.weatherlogger.ui.home.WeatherRecyclerViewAdapter.ViewHolder
+import com.grzhmelek.weatherlogger.ui.home.WeatherRecyclerViewAdapter.ViewHolder.Companion.selectedPosition
 
 class WeatherRecyclerViewAdapter(
     private val clickListener: WeatherClickListener,
     private val theme: Resources.Theme
 ) : ListAdapter<WeatherResult,
-        WeatherRecyclerViewAdapter.ViewHolder>(WeatherDiffCallback()) {
+        ViewHolder>(WeatherDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)

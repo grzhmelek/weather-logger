@@ -7,11 +7,11 @@
 
         <variable
             name="weatherResult"
-            type="com.grzhmelek.weatherlogger.data.WeatherResult" />
+            type="com.grzhmelek.weatherlogger.database.WeatherResult" />
 
         <variable
             name="clickListener"
-            type="com.grzhmelek.weatherlogger.list.WeatherClickListener" />
+            type="com.grzhmelek.weatherlogger.ui.home.WeatherClickListener" />
 
         <variable
             name="position"

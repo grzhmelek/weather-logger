@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.network
+package com.grzhmelek.weatherlogger.network.api
 
 import retrofit2.Response
 

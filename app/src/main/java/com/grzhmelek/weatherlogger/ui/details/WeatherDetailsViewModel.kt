@@ -1,4 +1,4 @@
-package com.grzhmelek.weatherlogger.details
+package com.grzhmelek.weatherlogger.ui.details
 
 import android.app.Application
 import android.content.Context
@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.data.WeatherResult
+import com.grzhmelek.weatherlogger.database.WeatherResult
 
 class WeatherDetailsViewModel(
     @get:JvmName("getApplication_") val application: Application,

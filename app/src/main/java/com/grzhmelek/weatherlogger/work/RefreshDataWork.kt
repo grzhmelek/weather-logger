@@ -6,7 +6,7 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
-import com.grzhmelek.weatherlogger.network.NetworkState
+import com.grzhmelek.weatherlogger.network.api.NetworkState
 import com.grzhmelek.weatherlogger.network.usecases.WeatherByLocationUseCase
 import com.grzhmelek.weatherlogger.utils.GpsTracker
 import retrofit2.HttpException
