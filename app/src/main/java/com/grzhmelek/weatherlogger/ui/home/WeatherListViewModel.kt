@@ -172,10 +172,16 @@ class WeatherListViewModel(
         }
     }
 
+    private suspend fun clearDatabase() {
+        withContext(Dispatchers.IO) {
+            database.clear()
+        }
+    }
+
     fun clearHistory() {
         _isProgressVisible.value = true
         viewModelScope.launch {
-            database.clear()
+            clearDatabase()
             setWeatherHistoryEvent.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
         }
