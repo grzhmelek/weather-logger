@@ -16,7 +16,9 @@ import androidx.lifecycle.viewModelScope
 import com.grzhmelek.weatherlogger.R
 import com.grzhmelek.weatherlogger.data.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
-import com.grzhmelek.weatherlogger.network.WeatherApi
+import com.grzhmelek.weatherlogger.network.NetworkState
+import com.grzhmelek.weatherlogger.network.usecases.WeatherByCityCodeUseCase
+import com.grzhmelek.weatherlogger.network.usecases.WeatherByLocationUseCase
 import com.grzhmelek.weatherlogger.utils.GpsTracker
 import com.grzhmelek.weatherlogger.utils.SingleLiveEvent
 import com.grzhmelek.weatherlogger.utils.storeImage
@@ -64,7 +66,7 @@ class WeatherListViewModel(
     }
 
     fun needToGetWeather() {
-        getWeatherEvent.call()
+        getWeatherEvent.postValue(Unit)
     }
 
     fun getLocation(activity: FragmentActivity) {
@@ -82,11 +84,23 @@ class WeatherListViewModel(
     }
 
     fun getWeatherResultData(cityId: String, unit: String, lang: String, appId: String) {
-        _isProgressVisible.value = true
         viewModelScope.launch {
-            val getWeatherDeferred =
-                WeatherApi.retrofitService.getWeatherByCityCodeAsync(cityId, unit, lang, appId)
-            handleResult(getWeatherDeferred)
+            when (val response =
+                WeatherByCityCodeUseCase().getWeatherByCityCode(cityId, unit, lang, appId)) {
+                is NetworkState.Loading -> {
+                    _isProgressVisible.postValue(true)
+                }
+
+                is NetworkState.Success -> {
+                    _isProgressVisible.postValue(false)
+                    handleResult(response.data.toWeatherResult())
+                }
+
+                is NetworkState.Error -> {
+                    _isProgressVisible.postValue(false)
+                    //TODO: handle error
+                }
+            }
         }
     }
 
@@ -97,31 +111,34 @@ class WeatherListViewModel(
         lang: String,
         appId: String,
     ) {
-        _isProgressVisible.value = true
         viewModelScope.launch {
             Timber.d("getWeatherResultData current location, lat=$latitude, lon=$longitude")
-            val getWeatherDeferred =
-                WeatherApi.retrofitService.getWeatherByLocationAsync(
-                    latitude,
-                    longitude,
-                    unit,
-                    lang,
-                    appId
-                )
-            handleResult(getWeatherDeferred)
+            when (val response = WeatherByLocationUseCase().getWeatherByLocation(
+                latitude,
+                longitude,
+                unit,
+                lang,
+                appId
+            )) {
+                is NetworkState.Loading -> {
+                    _isProgressVisible.postValue(true)
+                }
+
+                is NetworkState.Success -> {
+                    _isProgressVisible.postValue(false)
+                    handleResult(response.data.toWeatherResult())
+                }
+
+                is NetworkState.Error -> {
+                    _isProgressVisible.postValue(false)
+                    //TODO: handle error
+                }
+            }
         }
     }
 
-    private suspend fun handleResult(weatherDeferred: Deferred<WeatherResult>) {
-        try {
-            val weatherResult = weatherDeferred.await()
-            _weatherResultData.postValue(weatherResult)
-        } catch (e: Exception) {
-            Timber.e("Exception: ${e.message}")
-            _weatherResultData.postValue(WeatherResult())
-            _showMessage.postValue(application.getString(R.string.message_connection_error))
-        }
-        _isProgressVisible.postValue(false)
+    private fun handleResult(weatherResult: WeatherResult) {
+        _weatherResultData.postValue(weatherResult)
     }
 
     fun onWeatherClicked(weatherResult: WeatherResult, position: Int) {
@@ -141,10 +158,16 @@ class WeatherListViewModel(
     fun insertCurrentWeather(weatherResult: WeatherResult) {
         _isProgressVisible.value = true
         viewModelScope.launch {
-            database.insert(weatherResult)
+            insetWeatherResult(weatherResult)
             _weatherResultData.postValue(null)
             _weatherHistory.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
+        }
+    }
+
+    private suspend fun insetWeatherResult(weatherResult: WeatherResult) {
+        withContext(Dispatchers.IO) {
+            database.insert(weatherResult)
         }
     }
 
