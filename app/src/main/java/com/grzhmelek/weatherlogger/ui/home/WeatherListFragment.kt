@@ -3,6 +3,9 @@ package com.grzhmelek.weatherlogger.ui.home
 import android.Manifest
 import android.app.Application
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +17,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.doOnPreDraw
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -26,6 +31,8 @@ import com.grzhmelek.weatherlogger.R.integer
 import com.grzhmelek.weatherlogger.database.WeatherDatabase
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
 import com.grzhmelek.weatherlogger.databinding.FragmentWeatherListBinding
+import com.grzhmelek.weatherlogger.utils.storeImage
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -68,7 +75,7 @@ class WeatherListFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
-            weatherListViewModel.getBitmapFromViewAndStoreImage(binding.scrollableWrapper)
+            getBitmapFromViewAndStoreImage()
         } else {
             Toast.makeText(
                 activity,
@@ -144,12 +151,14 @@ class WeatherListFragment : Fragment() {
 
         // Observe weather data retrieved from CurrentWeatherData API
         weatherResultData.observe(viewLifecycleOwner) {
-            if (it?.main != null) { insertCurrentWeather(it) }
+            if (it?.main != null) {
+                insertCurrentWeather(it)
+            }
         }
 
         // Observe weather log red from database
-        setWeatherHistoryEvent.observe(viewLifecycleOwner) {
-            adapter.submitList(setWeatherHistoryEvent.value)
+        weatherHistoryData.observe(viewLifecycleOwner) {
+            adapter.submitList(weatherHistoryData.value)
         }
 
         selectedPosition.observe(viewLifecycleOwner) {
@@ -253,6 +262,44 @@ class WeatherListFragment : Fragment() {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.type = "image/png"
         startActivity(intent)
+    }
+
+    private fun getBitmapFromViewAndStoreImage() {
+        with(binding.scrollableWrapper) {
+            isDrawingCacheEnabled = true
+            val bitmap = loadBitmapFromView(this)
+            isDrawingCacheEnabled = false
+
+            weatherListViewModel.store(bitmap)
+        }
+    }
+
+    private fun loadBitmapFromView(scrollView: NestedScrollView): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            scrollView.getChildAt(0).width * 2,
+            scrollView.getChildAt(0).height * 2,
+            Bitmap.Config.ARGB_8888
+        )
+
+        Canvas(bitmap).apply {
+            scale(2.0f, 2.0f)
+            drawColor(Color.WHITE)
+            scrollView.getChildAt(0).draw(this)
+        }
+        return bitmap
+    }
+
+    private fun WeatherListViewModel.store(imageData: Bitmap) {
+        showProgress(true)
+
+        val fileName = "${getString(R.string.app_name)}_${System.currentTimeMillis()}.jpg"
+        lifecycleScope.launch {
+            setImageUriToShareEvent.postValue(
+                storeImage(requireContext(), imageData, fileName)
+            )
+
+            showProgress(false)
+        }
     }
 
 }

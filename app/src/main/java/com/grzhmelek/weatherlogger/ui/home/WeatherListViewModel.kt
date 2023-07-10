@@ -14,8 +14,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.grzhmelek.weatherlogger.R
-import com.grzhmelek.weatherlogger.database.WeatherResult
 import com.grzhmelek.weatherlogger.database.WeatherDatabaseDao
+import com.grzhmelek.weatherlogger.database.WeatherResult
 import com.grzhmelek.weatherlogger.network.api.NetworkState
 import com.grzhmelek.weatherlogger.network.usecases.WeatherByCityCodeUseCase
 import com.grzhmelek.weatherlogger.network.usecases.WeatherByLocationUseCase
@@ -34,7 +34,8 @@ class WeatherListViewModel(
     private val _weatherResultData = MutableLiveData<WeatherResult>()
     val weatherResultData: LiveData<WeatherResult> = _weatherResultData
 
-    val setWeatherHistoryEvent = SingleLiveEvent<List<WeatherResult>>()
+    private val _weatherHistoryData = MutableLiveData<List<WeatherResult>>()
+    val weatherHistoryData: LiveData<List<WeatherResult>> = _weatherHistoryData
 
     private val _selectedPosition = MutableLiveData<Int>()
     val selectedPosition: LiveData<Int> = _selectedPosition
@@ -45,7 +46,7 @@ class WeatherListViewModel(
     private val _isProgressVisible = MutableLiveData<Boolean>()
     val isProgressVisible = _isProgressVisible.map { true == it }
 
-    val isEmptyTextVisible = setWeatherHistoryEvent.map { it.isEmpty() }
+    val isEmptyTextVisible = _weatherHistoryData.map { it.isEmpty() }
 
     val setImageUriToShareEvent = SingleLiveEvent<Uri>()
 
@@ -146,7 +147,7 @@ class WeatherListViewModel(
 
     private fun initializeWeatherHistory() {
         viewModelScope.launch {
-            setWeatherHistoryEvent.postValue(getWeatherHistory())
+            _weatherHistoryData.postValue(getWeatherHistory())
         }
     }
 
@@ -155,7 +156,7 @@ class WeatherListViewModel(
         viewModelScope.launch {
             insetWeatherResult(weatherResult)
             _weatherResultData.postValue(null)
-            setWeatherHistoryEvent.postValue(getWeatherHistory())
+            _weatherHistoryData.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
         }
     }
@@ -182,42 +183,12 @@ class WeatherListViewModel(
         _isProgressVisible.value = true
         viewModelScope.launch {
             clearDatabase()
-            setWeatherHistoryEvent.postValue(getWeatherHistory())
+            _weatherHistoryData.postValue(getWeatherHistory())
             _isProgressVisible.postValue(false)
         }
     }
 
-    fun getBitmapFromViewAndStoreImage(scrollView: NestedScrollView) {
-        scrollView.isDrawingCacheEnabled = true
-        val bitmap = loadBitmapFromView(scrollView)
-        scrollView.isDrawingCacheEnabled = false
-
-        storeImage(
-            scrollView.context,
-            bitmap
-        )
-    }
-
-    private fun loadBitmapFromView(scrollView: NestedScrollView): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            scrollView.getChildAt(0).width * 2,
-            scrollView.getChildAt(0).height * 2,
-            Bitmap.Config.ARGB_8888
-        )
-
-        val c = Canvas(bitmap)
-        c.scale(2.0f, 2.0f)
-        c.drawColor(Color.WHITE)
-        scrollView.getChildAt(0).draw(c)
-        return bitmap
-    }
-
-    private fun storeImage(context: Context, imageData: Bitmap) {
-        _isProgressVisible.value = true
-        val fileName = "${context.getString(R.string.app_name)}_${System.currentTimeMillis()}.jpg"
-        viewModelScope.launch {
-            setImageUriToShareEvent.postValue(storeImage(context, imageData, fileName))
-            _isProgressVisible.postValue(false)
-        }
-    }
+   fun showProgress(show: Boolean) {
+       _isProgressVisible.postValue(show)
+   }
 }
